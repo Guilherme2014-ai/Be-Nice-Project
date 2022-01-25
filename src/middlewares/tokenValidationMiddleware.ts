@@ -21,7 +21,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         : authorization;
 
     const user_payload = await verify(token, jwtPass);
-    req["userPayload"] = user_payload;
+    req["user_payload"] = user_payload;
     next();
   } catch (e) {
     throw e;

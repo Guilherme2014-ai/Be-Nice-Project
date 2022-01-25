@@ -4,6 +4,7 @@ import { Router } from "express";
 import usersGetByNameController from "./controllers/usersGetByNameController";
 import createNewUsersController from "./controllers/createNewUsersController";
 import userLoginController from "./controllers/userLoginController";
+import userEmailVerificationController from "./controllers/userEmailVerificationController";
 
 const router = Router();
 
@@ -17,8 +18,10 @@ router.post("/users/create", createNewUsersController);
 
 router.post("/users/login", userLoginController);
 
-router.get("/users/email/verification", tokenValidationMiddleware, (req, res) =>
-  res.json({ message: "Mão na Massa !" }),
+router.get(
+  "/users/email/verification",
+  tokenValidationMiddleware,
+  userEmailVerificationController,
 );
 
 export default router;

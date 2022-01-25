@@ -5,7 +5,7 @@ import newUserInput from "../utils/newUserInput";
 
 const request = supertest(app);
 
-//------------------------------
+//------------------------------------------------------------
 
 const randomIntNum = () => Math.trunc(Math.random() * 1000);
 const userInputGenerator = (): IUserCreateRequest => ({
@@ -14,7 +14,7 @@ const userInputGenerator = (): IUserCreateRequest => ({
   password: `${randomIntNum()}${randomIntNum()}`,
 });
 
-//------------------------------
+//------------------------------------------------------------
 
 const { name, email, password } = userInputGenerator();
 const userTest = new newUserInput(name, email, password);
@@ -85,7 +85,7 @@ describe("User Routes", () => {
     });
   });
 
-  describe(`GET -> "/users/sourch/name/:name`, () => {
+  describe(`GET -> "/users/sourch/name/:userName`, () => {
     it("Should Return status 401.", async () => {
       const response = await request.get(
         `/users/search/name/${userTest.RegisterUserInput.name}`,
@@ -117,14 +117,10 @@ describe("User Routes", () => {
       expect(response.status).toBe(200);
     });
 
-    it("Should Return status 400.", async () => {
-      const token = userTest.GetToken;
+    it("Should Return status 401.", async () => {
+      const response = await request.get("/users/email/verification");
 
-      const response = await request
-        .get("/users/email/verification")
-        .set("Authorization", `${token}`);
-
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(401);
     });
   });
 });

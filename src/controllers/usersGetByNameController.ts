@@ -5,8 +5,6 @@ export default async (req: Request, res: Response): Promise<Response> => {
   try {
     const { userName } = req.params;
 
-    console.log(`NOME: ${userName}`);
-
     const users = await usersGetByNameService(userName);
 
     return res.json({

@@ -35,10 +35,11 @@ export default async (
     if (!thePassMatch)
       throw new ErrorResponseFactory("The Pass Does not Match !", 401);
 
-    return await sign(
+    return sign(
       {
         email: `${dbsUser.email}`,
         name: `${dbsUser.name}`,
+        verifiedEmail: false,
       },
       secretPass,
       {
