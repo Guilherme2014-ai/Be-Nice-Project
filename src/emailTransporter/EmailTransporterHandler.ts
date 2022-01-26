@@ -5,23 +5,20 @@ import SMTPTransport from "nodemailer/lib/smtp-transport";
 import nodemailer from "../libs/nodemailer";
 
 class EmailTransporterHandler {
-  async sendEmailConfirmation(
-    emailOptions: Mail.Options,
-  ): Promise<SMTPTransport.SentMessageInfo> {
+  async sendEmailConfirmation({
+    data,
+  }): Promise<SMTPTransport.SentMessageInfo> {
     try {
-      const { subject, from, to, text } = emailOptions;
+      const { to } = data as Mail.Options;
       const htmlToString = await renderFile(
         resolve(__dirname, ".", "views", "htmlOption.ejs"),
       );
 
-      console.log(`${htmlToString} (EmailTransporterHandler - 16)`);
-
       return await nodemailer.sendMail({
         html: htmlToString,
-        subject,
-        from,
+        subject: "Confirmação de Email",
+        from: "Any <anwony214da775@gmail.com>",
         to,
-        text,
       });
     } catch (e) {
       throw e;

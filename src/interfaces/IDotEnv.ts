@@ -11,4 +11,7 @@ export default interface IDotEnv {
   TRANSPORTER_EMAIL_PORT: number;
   TRANSPORTER_EMAIL_USER: string;
   TRANSPORTER_EMAIL_PASS: string;
+
+  REDIS_PORT: number;
+  REDIS_HOST: string;
 }
