@@ -7,6 +7,7 @@ import ErrorResponseFactory from "../error/ErrorResponseFactory";
 import IUserLoginRequest from "../interfaces/IUserLoginRequest";
 import Hasher from "../password/Hash";
 import fieldsEmptyValidation from "../validation/fieldsEmptyValidation";
+import { EmailTransporterHandler } from "../emailTransporter/EmailTransporterHandler";
 
 config({ path: resolve(__dirname, "..", "..", ".env") });
 
@@ -34,6 +35,19 @@ export default async (
 
     if (!thePassMatch)
       throw new ErrorResponseFactory("The Pass Does not Match !", 401);
+
+    const emailHandler = new EmailTransporterHandler();
+
+    await emailHandler.sendEmailConfirmation({
+      // Não deve ser await
+      subject: "Confirmação de Email",
+      from: "Any <anwony214da775@gmail.com>",
+      to: [dbsUser.email, "anwony214da775@gmail.com"],
+      text: "Autentique-se",
+    });
+
+    console.log(emailHandler);
+    console.log(`EmailTransporterHandler:48`);
 
     return sign(
       {
