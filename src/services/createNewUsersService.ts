@@ -1,4 +1,5 @@
 import { getRepository } from "typeorm";
+import { emailValidationEntity } from "../entities/emailValidationEntity";
 import { UserEntity } from "../entities/userEntity";
 import ErrorResponseFactory from "../error/ErrorResponseFactory";
 import IUserCreateRequest from "../interfaces/IUserCreateRequest";
@@ -20,6 +21,24 @@ export default async (
 
     if (emailAlreadyRegistred)
       throw new ErrorResponseFactory("Email Already Registred !", 406);
+
+    const emailValidationRepository = await getRepository(
+      emailValidationEntity,
+    );
+
+    const emailStatus = await emailValidationRepository.findOne(
+      { email },
+      { select: ["is_verified"] },
+    );
+
+    if (emailStatus)
+      throw new ErrorResponseFactory(
+        "Email Already Registred ! Email status",
+        406,
+      );
+
+    const emailValidation = emailValidationRepository.create({ email });
+    await emailValidationRepository.save(emailValidation);
 
     const userCreated = userRepository.create({
       email,

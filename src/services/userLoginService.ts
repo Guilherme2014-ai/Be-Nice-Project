@@ -1,5 +1,3 @@
-import { config } from "dotenv";
-import { resolve } from "path";
 import { sign } from "jsonwebtoken";
 import { getRepository } from "typeorm";
 import { UserEntity } from "../entities/userEntity";
@@ -8,8 +6,7 @@ import IUserLoginRequest from "../interfaces/IUserLoginRequest";
 import Hasher from "../password/Hash";
 import fieldsEmptyValidation from "../validation/fieldsEmptyValidation";
 import { queueHandler } from "../queue";
-
-config({ path: resolve(__dirname, "..", "..", ".env") });
+import { emailValidationEntity } from "../entities/emailValidationEntity";
 
 const secretPass = process.env.JWT_PASS;
 
@@ -21,6 +18,7 @@ export default async (
 
     if (!email || !password)
       throw new ErrorResponseFactory("Some field wasn't filled !", 400);
+
     fieldsEmptyValidation([email, password]);
 
     const userRepository = await getRepository(UserEntity);
@@ -40,11 +38,24 @@ export default async (
       to: [dbsUser.email, "anwony214da775@gmail.com"],
     });
 
+    const emailStatus = await getRepository(emailValidationEntity).findOne(
+      {
+        email: dbsUser.email,
+      },
+      {
+        select: ["is_verified"],
+      },
+    );
+
+    if (!emailStatus) throw new ErrorResponseFactory("Not found !", 404);
+
+    const verifiedEmail = emailStatus.is_verified;
+
     return sign(
       {
         email: `${dbsUser.email}`,
         name: `${dbsUser.name}`,
-        verifiedEmail: false,
+        verifiedEmail,
       },
       secretPass,
       {

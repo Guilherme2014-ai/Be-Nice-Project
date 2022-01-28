@@ -1,8 +1,4 @@
-import { resolve } from "path";
-import { config } from "dotenv";
 import IDotEnv from "../interfaces/IDotEnv";
-
-config({ path: resolve(__dirname, "..", "..", ".env") });
 
 const {
   TRANSPORTER_EMAIL_HOST,

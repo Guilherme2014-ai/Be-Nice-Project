@@ -1,9 +1,5 @@
-import { resolve } from "path";
-import { config } from "dotenv";
 import { Request, Response, NextFunction } from "express";
 import ErrorResponseFactory from "../error/ErrorResponseFactory";
-
-config({ path: resolve(__dirname, "..", "..", ".env") });
 
 export default (
   err: unknown,

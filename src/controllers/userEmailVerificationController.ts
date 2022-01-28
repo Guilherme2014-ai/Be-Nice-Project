@@ -1,12 +1,15 @@
 import { Request, Response } from "express";
-import IEmailVerificationRequest from "../interfaces/IEmailVerificationRequest";
 import userEmailVerificationService from "../services/userEmailVerificationService";
 
 export default async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { user_payload } = req as IEmailVerificationRequest;
+    const userEmail = req.params.email as string;
+    const emailVerificationSecret = `${req.params.secret}` as string;
 
-    const new_token = userEmailVerificationService(user_payload);
+    const new_token = await userEmailVerificationService(
+      userEmail,
+      emailVerificationSecret,
+    );
 
     return res.json({ new_token });
   } catch (e) {

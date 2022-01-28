@@ -19,8 +19,7 @@ router.post("/users/create", createNewUsersController);
 router.post("/users/login", userLoginController);
 
 router.get(
-  "/users/email/verification",
-  tokenValidationMiddleware,
+  "/users/email/verification/:email/:secret",
   userEmailVerificationController,
 );
 

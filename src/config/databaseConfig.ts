@@ -1,8 +1,4 @@
-import { resolve } from "path";
-import { config } from "dotenv";
 import entities from "../entities";
-
-config({ path: resolve(__dirname, "..", "..", ".env") });
 
 export default {
   development: {

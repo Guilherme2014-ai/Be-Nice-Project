@@ -7,6 +7,6 @@ export default {
   key: "Validation Mail",
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async handle(mailOptions): Promise<void> {
-    await emailHandler.sendEmailConfirmation(mailOptions);
+    await emailHandler.sendEmailConfirmationHandler(mailOptions);
   },
 } as IJob;
