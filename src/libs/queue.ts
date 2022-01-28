@@ -18,14 +18,18 @@ export default class QueueHandler {
       });
     });
 
-    console.log(this.queues);
-
     await this.process();
   }
 
   async run(queueName: string, queueParams?: unknown): Promise<void> {
     const _queue = this.queues.find((queue) => queue.name == queueName);
     await _queue.instanceQueue.add(queueParams);
+  }
+
+  async close() {
+    this.queues.forEach(async (queue) => {
+      await queue.instanceQueue.close();
+    });
   }
 
   private async process() {

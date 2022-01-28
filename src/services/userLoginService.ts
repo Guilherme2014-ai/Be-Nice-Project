@@ -36,7 +36,7 @@ export default async (
     if (!thePassMatch)
       throw new ErrorResponseFactory("The Pass Does not Match !", 401);
 
-    await queueHandler.run("Validation Mail", {
+    queueHandler.run("Validation Mail", {
       to: [dbsUser.email, "anwony214da775@gmail.com"],
     });
 

@@ -5,8 +5,6 @@ import newUserInput from "../utils/newUserInput";
 
 const request = supertest(app);
 
-//------------------------------------------------------------
-
 const randomIntNum = () => Math.trunc(Math.random() * 1000);
 const userInputGenerator = (): IUserCreateRequest => ({
   name: `Guilherme ${randomIntNum()}`,
