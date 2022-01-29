@@ -22,6 +22,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+  await database.Clean();
+
   await database.Close();
   server.close();
 });

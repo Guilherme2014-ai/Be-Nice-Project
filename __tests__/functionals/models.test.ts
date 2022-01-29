@@ -1,24 +1,31 @@
 import { UserEntity } from "../../src/entities/userEntity";
 import { ComplimentEntity } from "../../src/entities/complimentEntity";
 import { getRepository } from "typeorm";
+import userComplimentsTests from "../mocks/users/userComplimentsTests";
 
-let userId = 0;
+const randomNum = Math.trunc(Math.random() * 1000);
+const userInput = {
+  name: `Guilherme ${randomNum} MODEL`,
+  email: `guilhermehenrique${randomNum}@hotmail.com`,
+  password_hash: `ssd${randomNum}`,
+};
 
 describe("Create", () => {
   it("Should Create a User.", async () => {
-    const randomNum = Math.trunc(Math.random() * 1000);
-    const userInput = {
-      name: `Guilherme ${randomNum}`,
-      email: `guilhermehenrique${randomNum}@hotmail.com`,
-      password_hash: `ssd${randomNum}`,
-    };
-
     const _userRepository = getRepository(UserEntity);
 
     const user = _userRepository.create(userInput);
-    await _userRepository.save(user);
+    const userCompliment = _userRepository.create({
+      name: userComplimentsTests.name,
+      email: userComplimentsTests.email,
+      password_hash: userComplimentsTests.password,
+    });
 
-    userId = Number(user.id);
+    await _userRepository.save(user);
+    await _userRepository.save(userCompliment);
+
+    expect(userCompliment.email).toBe(userComplimentsTests.email);
+    expect(userCompliment.name).toBe(userComplimentsTests.name);
 
     expect(user.email).toBe(userInput.email);
     expect(user.name).toBe(userInput.name);
@@ -27,12 +34,17 @@ describe("Create", () => {
   it("Should Create a Compliment.", async () => {
     const complimentInput = {
       message: "Nota 10 !",
-      user_receiver: userId as unknown,
+      user_receiver: userComplimentsTests.email,
+      user_sender: userInput.email,
     };
 
     const _complimentRepository = getRepository(ComplimentEntity);
 
-    const compliment = _complimentRepository.create(complimentInput);
+    const compliment = _complimentRepository.create({
+      message: complimentInput.message,
+      user_receiver: complimentInput.user_receiver as unknown as UserEntity,
+      user_sender: complimentInput.user_sender as unknown as UserEntity,
+    });
     await _complimentRepository.save(compliment);
 
     expect(compliment.message).toBe(complimentInput.message);
@@ -50,3 +62,5 @@ describe("Query", () => {
     expect(users.length).toBeGreaterThan(0);
   });
 });
+
+export { userComplimentsTests };

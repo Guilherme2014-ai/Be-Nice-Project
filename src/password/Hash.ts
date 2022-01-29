@@ -4,7 +4,7 @@ class Hasher {
   constructor(private password: string) {}
 
   async Hash(): Promise<string> {
-    const salts = await genSalt();
+    const salts = await genSalt(10);
 
     return await hash(this.password, salts);
   }

@@ -16,11 +16,11 @@ export class ComplimentEntity extends BaseEntity {
   @Column({ nullable: false })
   message: string;
 
-  @JoinColumn({ name: "user_receiver", referencedColumnName: "id" })
+  @JoinColumn({ name: "user_receiver", referencedColumnName: "email" })
   @ManyToOne(() => UserEntity, { onDelete: "CASCADE" })
   user_receiver: UserEntity;
 
-  @JoinColumn({ name: "user_sender", referencedColumnName: "id" })
+  @JoinColumn({ name: "user_sender", referencedColumnName: "email" })
   @ManyToOne(() => UserEntity, { onDelete: "CASCADE" })
   user_sender: UserEntity;
 }

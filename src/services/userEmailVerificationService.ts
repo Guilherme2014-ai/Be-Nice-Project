@@ -24,11 +24,11 @@ export default async (
     if (!userEmailStatus)
       throw new ErrorResponseFactory("Non-Registred Email !", 404);
 
-    if (userEmailStatus.is_verified)
-      throw new ErrorResponseFactory("Already Activated !", 406);
-
     if (userEmailStatus.secret != emailVerificationSecret)
       throw new ErrorResponseFactory("Unathorized !", 401);
+
+    if (userEmailStatus.is_verified)
+      throw new ErrorResponseFactory("Already Activated !", 406);
 
     userEmailStatus.is_verified = true;
     await emailValidationRepository.save(userEmailStatus);
@@ -38,7 +38,7 @@ export default async (
         email: userEmail,
       },
       {
-        select: ["name", "email"],
+        select: ["id", "name", "email"],
       },
     );
 

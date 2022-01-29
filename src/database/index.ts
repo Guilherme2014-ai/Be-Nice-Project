@@ -1,5 +1,12 @@
-import { Connection, ConnectionManager, createConnection } from "typeorm";
+import {
+  Connection,
+  ConnectionManager,
+  createConnection,
+  getRepository,
+} from "typeorm";
+import entities from "../entities";
 import databaseConfig from "../config/databaseConfig";
+import { UserEntity } from "../entities/userEntity";
 
 class database {
   async Connection(): Promise<Connection> {
@@ -17,6 +24,14 @@ class database {
       new ConnectionManager().connections.map((connection) =>
         connection.close(),
       ),
+    );
+  }
+
+  async Clean() {
+    await Promise.all(
+      entities.map((entity) => {
+        return getRepository(entity).delete({});
+      }),
     );
   }
 }
