@@ -5,9 +5,7 @@ import ErrorResponseFactory from "../error/ErrorResponseFactory";
 import IUserCreateRequest from "../interfaces/IUserCreateRequest";
 import fieldsEmptyValidation from "../validation/fieldsEmptyValidation";
 
-export default async (
-  userRequestData: IUserCreateRequest,
-): Promise<UserEntity> => {
+export default async (userRequestData: IUserCreateRequest): Promise<object> => {
   try {
     const { name, email, password } = userRequestData;
 
@@ -47,7 +45,11 @@ export default async (
     });
     await userRepository.save(userCreated);
 
-    return userCreated;
+    return {
+      id: userCreated.id,
+      name: userCreated.name,
+      email: userCreated.email,
+    };
   } catch (e) {
     throw e;
   }

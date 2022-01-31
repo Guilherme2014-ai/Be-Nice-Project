@@ -4,6 +4,7 @@ import IUserLoginRequest from "../../src/interfaces/IUserLoginRequest";
 export default class newUserInput implements IUserCreateRequest {
   private token: string;
   private emailValidationSecret: string;
+  private noVerifiedEmailToken: string;
 
   constructor(
     public name: string,
@@ -34,6 +35,10 @@ export default class newUserInput implements IUserCreateRequest {
     this.emailValidationSecret = secretReceived;
   }
 
+  SetNoVerifiedEmailToken(noVerifiedEmailToken): void {
+    this.noVerifiedEmailToken = noVerifiedEmailToken;
+  }
+
   get GetToken(): string | null {
     const token = this.token;
     return token ? token : null;
@@ -42,5 +47,10 @@ export default class newUserInput implements IUserCreateRequest {
   get GetEmailValidation(): string | null {
     const secret = this.emailValidationSecret;
     return secret ? secret : null;
+  }
+
+  get GetNoVerifiedEmailToken(): string | null {
+    const token = this.noVerifiedEmailToken;
+    return token ? token : null;
   }
 }

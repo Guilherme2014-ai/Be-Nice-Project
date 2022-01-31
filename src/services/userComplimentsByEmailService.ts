@@ -11,33 +11,38 @@ export default async (
 ): Promise<ComplimentEntity[]> => {
   try {
     const userRepository = getRepository(UserEntity);
-    const { id: userReceivedId } = await userRepository.findOne(
+
+    const userExists = await userRepository.findOne(
       {
         email: userReceivedEmail,
       },
       {
         select: ["id"],
+        relations: ["compliments_receiveds"],
       },
     );
-    const { sub: userId } = userPayload;
-
-    const userExists = await userRepository.findOne(userReceivedId);
 
     if (!userExists) throw new ErrorResponseFactory("User Not Found !", 404);
 
-    const isFriend = await getRepository(UserFriendsEntity).findOne({
-      user: Number(userId),
-      other_user: userReceivedId,
-    });
+    const { sub: userId } = userPayload;
+    const { id: userReceivedId } = userExists;
+
+    const isFriend =
+      (await getRepository(UserFriendsEntity).findOne({
+        user: Number(userId),
+        other_user: userReceivedId,
+      })) ||
+      (await getRepository(UserFriendsEntity).findOne({
+        user: userReceivedId,
+        other_user: Number(userId),
+      }));
 
     const isTheSameUser = Number(userId) == userReceivedId;
 
     if (!isFriend && !isTheSameUser)
       throw new ErrorResponseFactory("This User is not your friend :/", 401);
 
-    return await getRepository(ComplimentEntity).find({
-      user_receiver: userExists,
-    });
+    return await userExists.compliments_receiveds;
   } catch (e) {
     throw e;
   }

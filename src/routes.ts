@@ -7,12 +7,17 @@ import userLoginController from "./controllers/userLoginController";
 import userEmailVerificationController from "./controllers/userEmailVerificationController";
 import createNewCompliementController from "./controllers/createNewCompliementController";
 import userComplimentsByEmailController from "./controllers/userComplimentsByEmailController";
+import emailVerificationValidationMiddleware from "./middlewares/emailVerificationValidationMiddleware";
+import sendFriendRequestController from "./controllers/sendFriendRequestController";
+import allFriendsRequestController from "./controllers/allFriendsRequestController";
+import acceptFriendsRequestController from "./controllers/acceptFriendsRequestController";
 
 const router = Router();
 
 router.get(
   "/users/search/name/:userName",
   tokenValidationMiddleware,
+  emailVerificationValidationMiddleware,
   usersGetByNameController,
 );
 router.post("/users/create", createNewUsersController);
@@ -30,7 +35,25 @@ router.post(
 router.get(
   "/users/compliments/:user_email",
   tokenValidationMiddleware,
+  emailVerificationValidationMiddleware,
   userComplimentsByEmailController,
+);
+
+router.post(
+  "/users/friends/resquests/send/:user_email",
+  tokenValidationMiddleware,
+  emailVerificationValidationMiddleware,
+  sendFriendRequestController,
+);
+router.post(
+  "/users/friends/resquests",
+  tokenValidationMiddleware,
+  allFriendsRequestController,
+);
+router.post(
+  "/users/friends/resquests/accept/:user_sender_email_friend_request",
+  tokenValidationMiddleware,
+  acceptFriendsRequestController,
 );
 
 export default router;

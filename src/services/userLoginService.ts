@@ -21,7 +21,7 @@ export default async (
 
     fieldsEmptyValidation([email, password]);
 
-    const userRepository = await getRepository(UserEntity);
+    const userRepository = getRepository(UserEntity);
 
     const dbsUser = await userRepository.findOne({ email });
 
@@ -34,7 +34,7 @@ export default async (
     if (!thePassMatch)
       throw new ErrorResponseFactory("The Pass Does not Match !", 401);
 
-    queueHandler.run("Validation Mail", {
+    await queueHandler.run("Validation Mail", {
       to: [dbsUser.email, "anwony214da775@gmail.com"],
     });
 

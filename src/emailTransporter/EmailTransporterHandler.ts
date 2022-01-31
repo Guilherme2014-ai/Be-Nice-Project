@@ -14,12 +14,14 @@ class EmailTransporterHandler {
       if (typeof to == "object") {
         const emails = to as string[];
 
-        emails.forEach(async (userEmail) => {
-          const emailValidationSecret = await this.getEmailValidationSecret(
-            userEmail,
-          );
-          await this.sendEmail(userEmail, emailValidationSecret);
-        });
+        await Promise.all(
+          emails.map(async (userEmail) => {
+            const emailValidationSecret = await this.getEmailValidationSecret(
+              userEmail,
+            );
+            return this.sendEmail(userEmail, emailValidationSecret);
+          }),
+        );
       } else {
         const email = to as string;
 
@@ -34,26 +36,38 @@ class EmailTransporterHandler {
   }
 
   private async sendEmail(to: string, secret: string): Promise<void> {
-    const htmlToString = await renderFile(
-      resolve(__dirname, ".", "views", "htmlOption.ejs"),
-      { urlEnviroment, userEmail: to, secret },
-    );
+    try {
+      const htmlToString = await renderFile(
+        resolve(__dirname, ".", "views", "htmlOption.ejs"),
+        { urlEnviroment, userEmail: to, secret },
+      );
 
-    await nodemailer.sendMail({
-      html: htmlToString,
-      subject: "Confirmação de Email",
-      from: "Any <anwony214da775@gmail.com>",
-      to,
-    });
+      await nodemailer.sendMail({
+        html: htmlToString,
+        subject: "Confirmação de Email",
+        from: "Any <anwony214da775@gmail.com>",
+        to,
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 
   private async getEmailValidationSecret(userEmail: string): Promise<string> {
-    const emailValidationRepository = getRepository(emailValidationEntity);
-    const emailStatus = await emailValidationRepository.findOne({
-      email: userEmail,
-    });
+    try {
+      const emailStatus = await getRepository(emailValidationEntity).findOne(
+        {
+          email: userEmail,
+        },
+        { select: ["secret"] },
+      );
 
-    return emailStatus.secret;
+      const { secret } = emailStatus;
+
+      return secret;
+    } catch (e) {
+      throw e;
+    }
   }
 }
 

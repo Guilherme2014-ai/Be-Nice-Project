@@ -5,10 +5,12 @@ import {
   BeforeInsert,
   OneToMany,
   BaseEntity,
+  OneToOne,
 } from "typeorm";
 import { ComplimentEntity } from "./complimentEntity";
 
 import Hasher from "../password/Hash";
+import { friendsRequestEntity } from "./friendsRequestsEntity";
 
 @Entity("users")
 export class UserEntity extends BaseEntity {
@@ -31,6 +33,12 @@ export class UserEntity extends BaseEntity {
     (_complimentEntity) => _complimentEntity.user_receiver, // Campo de Referencia
   )
   compliments_receiveds: ComplimentEntity[];
+
+  @OneToMany(
+    () => friendsRequestEntity,
+    (_friendsRequestEntity) => _friendsRequestEntity.user_receiver_email,
+  )
+  friends_requests: friendsRequestEntity[]; // "as" no sequelize
 
   @OneToMany(
     () => ComplimentEntity,
