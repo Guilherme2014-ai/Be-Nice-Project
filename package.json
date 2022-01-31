@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand",
-    "start": "node ./dist/dist",
+    "start": "node ./dist/server.js",
     "dev": "npm-run-all -p dev:*",
     "dev:server": "cross-env NODE_ENV=development nodemon ./src/server.ts",
     "dev:queue": "nodemon ./src/queue.ts",
