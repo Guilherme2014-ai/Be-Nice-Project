@@ -6,7 +6,7 @@ const someQueue = new Queue(queueName);
 someQueue.process(queueMethod);
 ```
 
-O problema dessa situação é que isto ficaria muito cansativo de Repetir a cada job, em uma aplicação que teria 10 Jobs por exemplo, o código viraria uma massaroca. Dado isso é visto que a Escalabilidade não deve ser vista como uma Opção e sim como uma Obrigação em certos casos se Bem implementada.
+O problema dessa situação é que isto ficaria muito cansativo de Repetir a cada job, em uma aplicação que teria 10 Jobs por exemplo, o código viraria uma massaroca. Dado isso é visto que a Escalabilidade não deve ser vista como uma Opção mas sim como uma Obrigação em certos casos se bem implementada.
 
 ## Implementação do EJS e Desacoplagem na Vida Real
 Conforme se aprofunda na Programação ou em Tecnologias, é visto que muitas coisas são, na verdade, implementações, não dependências — começarei a usar termos técnicos em situações reais — como visto neste Projeto.  A causa desse pensamento veio quando utilizei o render "EJS", antes eu pensava que o EJS só servia como um render, e se limitava a encaixar no render do express, porem, ele está longe disso! Uma coisa que estou aprendendo a fazer e ver como as coisas realmente funcionam, no caso do EJS falando a grosso modo ele tem a funcionalidade de transformar um arquivo ".ejs" em string, assim o express podendo tirar proveito disso assim como qualquer outra coisa ou o própio programador em outra ocasião. Isto deixa bem claro como devo melhorar muito meu jeito de pensar, este projeto meu ensinou muitas coisas, entre elas o jeito desacoplado em que as coisas funcionam.
