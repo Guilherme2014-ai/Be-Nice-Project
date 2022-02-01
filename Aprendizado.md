@@ -2,7 +2,8 @@
 No Cenário em que fui exposto a cada novo Job era necessário criar uma nova instancia "Queue", na qual recebia como Parâmetro o nome do novo Job, esta instancia da fila não vinha com o método já incluso, precisava-se de inserir tal método através do comando Process, feito isso a Fila estava criada e pronta para ser chamada e usada. Exem.:
 
 ```
-const someQueue = new Queue(queueName); someQueue.process(queueMethod);
+const someQueue = new Queue(queueName);
+someQueue.process(queueMethod);
 ```
 
 O problema dessa situação é que isto ficaria muito cansativo de Repetir a cada job, em uma aplicação que teria 10 Jobs por exemplo, o código viraria uma massaroca. Dado isso é visto que a Escalabilidade não deve ser vista como uma Opção e sim como uma Obrigação em certos casos se Bem implementada.
