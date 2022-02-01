@@ -160,18 +160,23 @@ A Função desta Rota é Criar um novo comentario
 <hr>
 
 ## POST - /users/compliments/:user_email
-A Função desta Rota é Criar um novo comentario
+A Função desta Rota é retornar os Comentarios recebidos por outros Usuários
 
 ### Regras de Negócios:
-- Não é possível aceitar solicitações caso não estiver loggado :/
-- O Campo "mensagem" é obrigatório.
+- Necessita estar logado
+- O Usuário necessita existir.
+- Não é permitido um Usuário ver os comentarios recebidos por outros Usuários que não sejam amigos dele.
 
 #### Input Example
 - Sem Input
 
 ### Respostas
-- Em Caso de Sucesso: { *lista de usuários, status: 200 }
+- Em Caso de Sucesso: { *lista de comentarios, status: 200 }
 
-- Em Caso de campos faltando: { "Some field wasn't filled !", status: 400 }
+- Caso o Usuário não existir: { message: "User not found !", status: 404 }
+
+- Caso o usuário não esteja na lista de amigos: { message: "This User is not your friend :/", status: 401 }
 
 - Caso não tenha Token: { token: "Token Required !", status: 401 }
+
+- Caso o Email não foi verificado: { token: "Email Verification Required !", status: 401 }
