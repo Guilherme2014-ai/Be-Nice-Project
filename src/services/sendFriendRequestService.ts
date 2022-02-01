@@ -26,7 +26,7 @@ export default async (
       (invit) => invit.user_sender_email == userEmail,
     );
 
-    if (invitSent) throw new ErrorResponseFactory("Email Already Sent !", 406);
+    if (invitSent) throw new ErrorResponseFactory("Invite Already Sent !", 406);
 
     const friendRequestRepository = getRepository(friendsRequestEntity);
     const friendRequest = friendRequestRepository.create({

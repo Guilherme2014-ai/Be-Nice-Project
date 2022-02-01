@@ -252,13 +252,12 @@ describe("User Routes", () => {
 });
 
 describe("Compliments Routes", () => {
-  describe("POST -> /users/compliments/create ", () => {
+  describe("POST -> /users/compliments/create/:user_receiver", () => {
     it("Should Return status 200.", async () => {
       const response = await request
-        .post("/users/compliments/create")
+        .post(`/users/compliments/create/${userComplimentsTests.email}`)
         .send({
           message: "Random Compliment",
-          user_receiver: userComplimentsTests.email,
         })
         .set("Authorization", `${userTest.GetToken}`);
 
@@ -267,10 +266,7 @@ describe("Compliments Routes", () => {
 
     it("Should Return status 400.", async () => {
       const response = await request
-        .post("/users/compliments/create")
-        .send({
-          user_receiver: userComplimentsTests.email,
-        })
+        .post(`/users/compliments/create/${userComplimentsTests.email}`)
         .set("Authorization", `${userTest.GetToken}`);
 
       expect(response.status).toBe(200);
@@ -278,10 +274,9 @@ describe("Compliments Routes", () => {
 
     it("Should Return status 404.", async () => {
       const response = await request
-        .post("/users/compliments/create")
+        .post("/users/compliments/create/non_existentUser@exem.com")
         .send({
           message: "Random Compliment",
-          user_receiver: `${userComplimentsTests.email}asdsdsd`,
         })
         .set("Authorization", `${userTest.GetToken}`);
 
@@ -290,10 +285,9 @@ describe("Compliments Routes", () => {
 
     it("Should Return status 406.", async () => {
       const response = await request
-        .post("/users/compliments/create")
+        .post(`/users/compliments/create/${userTest.email}`)
         .send({
           message: "Random Compliment",
-          user_receiver: userTest.email,
         })
         .set("Authorization", `${userTest.GetToken}`);
 
@@ -302,14 +296,14 @@ describe("Compliments Routes", () => {
   });
 
   describe("GET -> /users/compliments/:user_email", () => {
-    /*  it("Should return status 200.", async () => {
+    it("Should return status 200.", async () => {
       const response = await request
         .get(`/users/compliments/${userComplimentsTests.email}`)
         .set("Authorization", `${userTest.GetToken}`);
 
       expect(response.status).toBe(200);
     });
-*/
+
     it("Should return status 404.", async () => {
       const response = await request
         .get("/users/compliments/non_existentEmail@gmail.com")

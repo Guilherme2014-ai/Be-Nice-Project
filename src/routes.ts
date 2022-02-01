@@ -28,7 +28,7 @@ router.get(
 );
 
 router.post(
-  "/users/compliments/create",
+  "/users/compliments/create/:user_receiver",
   tokenValidationMiddleware,
   createNewCompliementController,
 );

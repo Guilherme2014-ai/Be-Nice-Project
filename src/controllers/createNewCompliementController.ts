@@ -5,10 +5,13 @@ import createNewUsersService from "../services/createNewCompliementService";
 
 export default async (req: Request, res: Response): Promise<Response> => {
   try {
-    const complimentRequestInput = req.body as IComplimentInput;
     const { email } = req["user_payload"] as IUserPayload;
 
-    complimentRequestInput.user_sender = email;
+    const complimentRequestInput = {
+      user_receiver: req.params.user_receiver,
+      user_sender: email,
+      ...req.body,
+    } as IComplimentInput;
 
     const complimentCreated = await createNewUsersService(
       complimentRequestInput,
