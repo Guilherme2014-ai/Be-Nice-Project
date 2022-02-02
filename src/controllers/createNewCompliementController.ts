@@ -13,11 +13,10 @@ export default async (req: Request, res: Response): Promise<Response> => {
       ...req.body,
     } as IComplimentInput;
 
-    const complimentCreated = await createNewUsersService(
-      complimentRequestInput,
-    );
+    await createNewUsersService(complimentRequestInput);
 
-    return res.json({ complimentCreated });
+    res.statusCode = 200;
+    return res.json({ message: "Compliment Sent !" });
   } catch (e) {
     throw e;
   }

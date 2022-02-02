@@ -269,7 +269,7 @@ describe("Compliments Routes", () => {
         .post(`/users/compliments/create/${userComplimentsTests.email}`)
         .set("Authorization", `${userTest.GetToken}`);
 
-      expect(response.status).toBe(200);
+      expect(response.status).toBe(400);
     });
 
     it("Should Return status 404.", async () => {

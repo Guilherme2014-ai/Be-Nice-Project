@@ -5,13 +5,15 @@ import fieldsEmptyValidation from "../validation/fieldsEmptyValidation";
 import { UserEntity } from "../entities/userEntity";
 import { ComplimentEntity } from "../entities/complimentEntity";
 
-export default async (
-  complimentInput: IComplimentInput,
-): Promise<ComplimentEntity> => {
+export default async (complimentInput: IComplimentInput): Promise<void> => {
   try {
-    const { message, user_receiver, user_sender } = complimentInput;
+    fieldsEmptyValidation([
+      complimentInput.message,
+      complimentInput.user_receiver,
+      complimentInput.user_sender,
+    ]);
 
-    fieldsEmptyValidation([message, user_receiver, user_sender]);
+    const { message, user_receiver, user_sender } = complimentInput;
 
     const userRepository = getRepository(UserEntity);
 
@@ -29,14 +31,12 @@ export default async (
     const compliementRepository = getRepository(ComplimentEntity);
 
     const compliment = compliementRepository.create({
-      message: "asdsd",
+      message,
       user_receiver: userReceiverExists, // ou id as userEntity
       user_sender: userSendExists, // ou id as userEntity
     });
 
     await compliementRepository.save(compliment);
-
-    return compliment;
   } catch (e) {
     throw e;
   }
