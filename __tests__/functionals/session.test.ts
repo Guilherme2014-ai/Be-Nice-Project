@@ -184,17 +184,17 @@ describe("User Routes", () => {
   }); // Mandar Request
 
   // A partir da aceitação do Friend Request que sera feita a Amizade entre os Usuários
-  describe("POST -> /users/friends/resquests", () => {
+  describe("GET -> /users/friends/resquests", () => {
     it("Should return status 200", async () => {
       const response = await request
-        .post(`/users/friends/resquests`)
+        .get(`/users/friends/resquests`)
         .set("Authorization", userTest.GetToken);
 
       expect(response.status).toBe(200);
     });
 
     it("Should return status 401 when token not Provided.", async () => {
-      const response = await request.post(`/users/friends/resquests`);
+      const response = await request.get(`/users/friends/resquests`);
 
       expect(response.body["Error"]).toBe("Token Required !");
       expect(response.status).toBe(401);

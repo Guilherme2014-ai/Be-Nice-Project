@@ -45,7 +45,7 @@ router.post(
   emailVerificationValidationMiddleware,
   sendFriendRequestController,
 );
-router.post(
+router.get(
   "/users/friends/resquests",
   tokenValidationMiddleware,
   allFriendsRequestController,
