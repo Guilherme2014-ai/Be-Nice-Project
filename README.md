@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<img src="https://trademarks.justia.com/media/image.php?serial=85790559" alt="Be Nice Logo" align="center"/>
-=======
 <h1 align="center">
     <img src="https://trademarks.justia.com/media/image.php?serial=85790559" alt="Be Nice Logo"/>
 </h1>
