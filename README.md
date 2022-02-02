@@ -1,3 +1,6 @@
+<h1 align="center">
+    <img src="https://trademarks.justia.com/media/image.php?serial=85790559" alt="Be Nice Logo"/>
+</h1>
 
 # Visão Geral
 Vamos começar falando sobre oque a API faz. Bom, esta API pode criar Usuários que podem se relacionar entre sí, um exemplo dessa dinâmica é o próprio Facebook, onde Usuários
