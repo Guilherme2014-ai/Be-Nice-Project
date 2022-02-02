@@ -180,3 +180,28 @@ A Função desta Rota é retornar os Comentarios recebidos por outros Usuários
 - Caso não tenha Token: { token: "Token Required !", status: 401 }
 
 - Caso o Email não foi verificado: { token: "Email Verification Required !", status: 401 }
+
+
+
+
+
+
+
+## POST - /users/email/verification/:email/:secret
+A Função desta Rota é verificar o Email.
+
+### Regras de Negócios:
+- O Usuário Email enviado precisa existir na Base de Dados.
+- A Secret enviada deve ser a mesma salva no Email gravado no Banco de Dados.
+
+#### Input Example
+- Sem Input
+
+### Respostas
+- Em Caso de Sucesso: { *New Token, status: 200 }
+
+- Caso o Email não existir: { message: "Non-Registred Email !", status: 404 }
+
+- Caso o a Secret for diferente da Salva: { message: "Unathorized !", status: 401 }
+
+- Caso o Email já foi ativado: { token: "Already Activated !", status: 401 }
